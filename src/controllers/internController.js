@@ -59,9 +59,7 @@ let collegeDetails  = async function(req, res) {
      let internList = await internModel.find({collegeId: collegeDetails._id, isDeleted: false}).select({name:1, email:1, mobile:1})
      if(internList.length === 0) return res.status(404).send({status:false, msg:"no intern applied fo this college"})
      
-
-    
-     let  college = {name, fullName, logoLink, interests: internList}
+    let  college = {name, fullName, logoLink, interests: internList}
      console.log(college)
 
    
