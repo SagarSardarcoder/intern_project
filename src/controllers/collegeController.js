@@ -14,6 +14,7 @@ const createCollege = async function(req, res) {
  try{
     if(!isValidReqBody(req.body)) return res.status(400).send({status:false,msg:"Invalid parameters.Please provide college details"})
     let{name,fullName,logoLink} = req.body;
+    
     if(!isValid(name)) return res.status(400).send({status:false,msg:"college name is required"})
     if(!isValid(fullName)) return res.status(400).send({status:false,msg:"college fullName is required"})
     if(!isValid(logoLink)) return res.status(400).send({status:false,msg:"logoLink is required"})

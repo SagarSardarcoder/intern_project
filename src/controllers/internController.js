@@ -26,7 +26,7 @@ let createIntern = async function (req, res) {
         if (!isValid(name)) return res.status(400).send({ status: false, msg: "intern name is required" })
 
         if (!isValid(email)) return res.status(400).send({ status: false, msg: "email is required" })
-        if (!validateEmail.validate(email)) return res.status(400).send({ status: false, msg: `${email} this email is not valid}` })
+        if (!validateEmail.validate(email)) return res.status(400).send({ status: false, msg: `${email} this email is not valid` })
 
         if (!isValid(mobile)) return res.status(400).send({ status: false, msg: "mobile number is required" })
         if (!validPhone(mobile)) return res.status(400).send({ status: false, msg: "mobile number is not valid" })
@@ -50,7 +50,7 @@ let createIntern = async function (req, res) {
 let collegeDetails = async function (req, res) {
     try {
 
-        if (!isValid(req.query.collegeName)) return res.status(400).send({ status: false, msg: "Give collegeNmae" })
+        if (!isValid(req.query.collegeName)) return res.status(400).send({ status: false, msg: "Give collegeName" })
         let collegeDetails = await collegeModel.findOne({ name: req.query.collegeName, isDeleted: false })
 
         if (!collegeDetails) return res.status(404).send({ status: false, msg: "College Not Found" })
