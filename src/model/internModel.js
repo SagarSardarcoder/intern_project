@@ -20,6 +20,7 @@ const internSchema = new mongoose.Schema({
     },
     collegeId:{
         type:id,
+        trim:true,
         ref:"college",
         required:"collegeId is required"
     },
