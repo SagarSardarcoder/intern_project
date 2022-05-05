@@ -45,19 +45,7 @@ let createIntern = async function (req, res) {
        let { _id } = collegeDetail;
        // console.log(collegeDetail)
        // console.log(_id )
-
-       if (!isValid(_id)) {
-           res.status(400).send({ status: false, message: 'College id is required' })
-           return
-       }
-
-       if (!isValidObjectId(_id)) {
-           res.status(400).send({ status: false, message: `${_id} is not a valid College Id` })
-           return
-       }
-
        req.body["collegeId"] = _id
-
 
         let list = await internModel.create(req.body)
         res.status(201).send({ status: true, msg: "intern created successfully", data: list })
