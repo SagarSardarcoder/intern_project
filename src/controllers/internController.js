@@ -21,7 +21,7 @@ const validPhone = function (mobile) {
 let createIntern = async function (req, res) {
     try {
         if (!isValidReqBody(req.body)) return res.status(400).send({ status: false, msg: "Invalid parameters.Please provide intern details" })
-        let { name, email, collegeId, mobile } = req.body
+        let { name, email, collegeName, mobile } = req.body
 
         if (!isValid(name)) return res.status(400).send({ status: false, msg: "intern name is required" })
 
@@ -31,11 +31,34 @@ let createIntern = async function (req, res) {
         if (!isValid(mobile)) return res.status(400).send({ status: false, msg: "mobile number is required" })
         if (!validPhone(mobile)) return res.status(400).send({ status: false, msg: "mobile number is not valid" })
 
-        if (!isValid(collegeId)) return res.status(400).send({ status: false, msg: "collegId is required" })
-        if (!isValidObjectId(collegeId)) return res.status(400).send({ status: false, msg: "college is not found.Give valid collegeId" })
-
         let duplicateMobile = await internModel.findOne({ mobile })
         if (duplicateMobile) return res.status(400).send({ status: false, msg: `intern exist with this mobile number ${mobile}` })
+
+        if (!isValid(collegeName)) {
+            res.status(400).send({ status: false, message: `CollegeName is required` })
+            return
+        }
+
+       let collegeDetail = await collegeModel.findOne({ name: collegeName, isDeleted: false });
+       console.log(collegeDetail)
+       if (!collegeDetail) return res.status(400).send({ status: false, msg: "No such college found" })
+       let { _id } = collegeDetail;
+       // console.log(collegeDetail)
+       // console.log(_id )
+
+       if (!isValid(_id)) {
+           res.status(400).send({ status: false, message: 'College id is required' })
+           return
+       }
+
+       if (!isValidObjectId(_id)) {
+           res.status(400).send({ status: false, message: `${_id} is not a valid College Id` })
+           return
+       }
+
+       req.body["collegeId"] = _id
+
+
         let list = await internModel.create(req.body)
         res.status(201).send({ status: true, msg: "intern created successfully", data: list })
 
