@@ -27,6 +27,8 @@ let createIntern = async function (req, res) {
 
         if (!isValid(email)) return res.status(400).send({ status: false, msg: "email is required" })
         if (!validateEmail.validate(email)) return res.status(400).send({ status: false, msg: `${email} this email is not valid` })
+        let duplicateEmail = await internModel.findOne({ email })
+        if (duplicateEmail) return res.status(400).send({ status: false, msg: `intern exist with this email ${email}` })
 
         if (!isValid(mobile)) return res.status(400).send({ status: false, msg: "mobile number is required" })
         if (!validPhone(mobile)) return res.status(400).send({ status: false, msg: "mobile number is not valid" })
